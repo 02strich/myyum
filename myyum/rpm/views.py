@@ -48,6 +48,12 @@ def repository_edit(request, repository_id):
 
 def repository_delete(request, repository_id):
     repo = get_object_or_404(Repository, id=repository_id)
+    
+    if request.method == 'POST':
+        repo.delete()
+        return redirect('myyum.rpm.views.repository_index')
+    else:
+        return render_to_response("repo_delete.html", dict(repo=repo), context_instance=RequestContext(request))
 
 
 def package_upload(request, repository_id):
