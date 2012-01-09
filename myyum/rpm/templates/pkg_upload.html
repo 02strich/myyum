@@ -1,0 +1,44 @@
+{% extends "pkg_base.html" %}
+
+{% block actiontitle %}{{ repo.name }}{% endblock %}
+{% block subtitle%}Upload new package{% endblock %}
+
+{% block helptext %}
+Select a RPM package for uploading into the current repository.
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+
+	<form method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+		
+		{% if form.non_field_errors %}
+			{% for error in form.non_field_errors %}
+				<div class="alert-message error">
+					<p>{{ error }}</p>
+				</div>
+			{% endfor %}
+		{% endif %}
+		
+		<fieldset>
+			<legend>General Settings</legend>
+			{% for field in form %}
+				<div class="clearfix {% if field.errors %}error{% endif %}">
+					<label for="subject">{{ field.label }}</label>
+					<div class="input">
+						{{ field }}
+						{% if field.errors %}
+							<span class="help-inline">{% for error in field.errors %}{{ error }}{% endfor %}</span>
+						{% endif %}
+					</div>
+				</div>
+			{% endfor %}
+		</fieldset>
+		
+		<div class="actions">
+			<input class="btn primary" type="submit" value="Upload">
+			<button class="btn" type="reset">Cancel</button>
+		</div>
+	</form>
+{% endblock %}
