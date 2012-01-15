@@ -51,6 +51,8 @@ def repository_delete(request, repository_id):
     
     if request.method == 'POST':
         repo.delete()
+        
+        messages.add_message(request, messages.SUCCESS, "Successfully deleted repository.")
         return redirect('myyum.rpm.views.repository_index')
     else:
         return render_to_response("repo_delete.html", dict(repo=repo), context_instance=RequestContext(request))
@@ -87,6 +89,8 @@ def package_delete(request, repository_id, package_id):
 
     if request.method == 'POST':
         pkg.delete()
+        
+        messages.add_message(request, messages.SUCCESS, "Successfully deleted package.")
         return redirect('myyum.rpm.views.repository_view', repo.id)
     else:
         return render_to_response("pkg_delete.html", dict(repo=repo, pkg=pkg), context_instance=RequestContext(request))

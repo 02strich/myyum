@@ -2,10 +2,8 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.files.storage import default_storage
-from django.db import IntegrityError
 
 from myyum.rpm.models import *
-from pyrpm.rpm import RPM
 
 class RepositoryForm(forms.ModelForm):
     class Meta:
@@ -37,21 +35,5 @@ class PackageUploadForm(forms.Form):
         # get file
         package_file = self.cleaned_data.get('package')
         
-        # parse it
-        rpm = RPM(package_file)
-        
-        # ckech for duplicates
-        if self.repository.packages.filter(pkgid=rpm.checksum).exists():
-            raise IntegrityError()
-        
-        # create in db
-        pkg = RPMPackage.objects.create(repository=self.repository, pkgid=rpm.checksum, name=rpm.header.name)
-        for header_entry in rpm.header:
-            RPMHeader.objects.create(package=pkg, tag=header_entry.tag, value=header_entry.value)
-        
-        # upload it
-        pkg.url = default_storage.save("%s/%s/%s" % (self.repository.owner.username, self.repository.name, rpm.canonical_filename), package_file)
-        pkg.save()
-        
-        # success
-        return pkg
+        return RPMPackage.create_from_rpm_file(self.repository, package_file)
+
