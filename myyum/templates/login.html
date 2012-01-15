@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+
+{% load static %}
+
+{% block actiontitle %}Login to MyYum{% endblock %}
+{% block subtitle%}Select your preferred mechanism{% endblock %}
+
+{% block helptext %}
+Select the authentication provider that most suits you.
+{% endblock %}
+
+{% block content %}
+	<div>
+		<h4>Do you already have an account on one of these sites? Click the logo to log in with it here:</h4>
+		<a href="{% url socialauth_begin 'google-oauth2' %}"><div class="login-icon login-icon-google"></div></a>
+		<a href="{% url socialauth_begin 'yahoo' %}"><div class="login-icon login-icon-yahoo"></div></a>
+		<a href="{% url socialauth_begin 'github' %}"><div class="login-icon-github"></div></a>
+	</div>
+	
+	<div>
+		<h4>Or, you can manually enter your OpenID</h4>
+		<form action="{% url socialauth_begin "openid" %}" method="post">{% csrf_token %}
+			<input type="text" tabindex="100" style="height:28px; width:500px;" class="openid-identifier" name="openid_identifier" id="openid_identifier">
+			<input type="submit" value="Login" class="btn primary"/>
+	</div>
+{% endblock %}

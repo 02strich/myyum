@@ -18,18 +18,15 @@
 			<div class="container">
 				<a class="brand" href="{% url myyum.rpm.views.repository_index %}">MyYum</a>
 				
-				<ul class="nav">
-					<li class="active"><a href="{% url myyum.rpm.views.repository_index %}">Home</a></li>
-					<li><a href="#about">Settings</a></li>
-				</ul>
 				{% if request.user.is_active %}
-					Logged in as {{ request.user }}
-				{% else %}
-					<form action="" class="pull-right">
-						<input class="input-small" type="text" placeholder="Username">
-						<input class="input-small" type="password" placeholder="Password">
-						<button class="btn" type="submit">Sign in</button>
-					</form>
+					<ul class="nav">
+						<li class="active"><a href="{% url myyum.rpm.views.repository_index %}">Home</a></li>
+						<li><a href="#about">Settings</a></li>
+					</ul>
+					<ul class="nav secondary-nav">
+						<li><a>{{ request.user.get_full_name }}</a></li>
+						<li><a href='{% url django.contrib.auth.views.logout %}'>Logout</a></li>
+					</ul>
 				{% endif %}
 			</div>
 		</div>
