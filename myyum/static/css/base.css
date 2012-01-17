@@ -38,15 +38,14 @@ body {
 	border: 0;
 }
 
-.login-icon { height: 45px; width: 100px; background-image: url("../images/openid-logos.png"); display: inline-block;  }
-.login-icon-google { background-position: -1px -15px; }
-.login-icon-yahoo { background-position: -1px -78px; }
-.login-icon-openid { background-position: -1px -187px; }
+.login-icon-google	{ height: 128px; width: 128px; background-image: url("../images/google_128.png"); display: inline-block; }
+.login-icon-yahoo	{ height: 128px; width: 128px; background-image: url("../images/yahoo_128.png"); display: inline-block; }
+.login-icon-openid	{ background-position: -1px -187px; }
+.login-icon-github	{ height: 128px; width: 128px; background-image: url("../images/github_128.png"); display: inline-block; }
 
-.login-icon-github { height: 45px; width: 100px; background-image: url("../images/github_logo.png"); background-size: 90%; background-repeat: no-repeat; display: inline-block; }
-
-.openid-identifier {
+.openid-box{
 	background: url("../images/openid-large.png") no-repeat scroll left center transparent;
 	line-height: 22px;
     padding-left: 32px;
+	height:28px;
 }
