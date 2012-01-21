@@ -165,6 +165,10 @@ AUTHENTICATION_BACKENDS = (
     'social_auth.backends.OpenIDBackend',
 )
 
+import os
+GITHUB_APP_ID                = os.environ['GITHUB_CLIENTID']
+GITHUB_API_SECRET            = os.environ['GITHUB_SECRET']
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error.
