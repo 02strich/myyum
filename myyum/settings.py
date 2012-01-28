@@ -1,13 +1,15 @@
 # Django settings for myyum project.
+import os
+import os.path
 
 # automatically determine SITE_ROOT, used for absolute paths below
-import os.path
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
+    ('Stefan Richter', 'stefan@02strich.de'),
     # ('Your Name', 'your_email@example.com'),
 )
 
@@ -46,15 +48,6 @@ USE_I18N = True
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale
 USE_L10N = True
-
-# Absolute filesystem path to the directory that will hold user-uploaded files.
-# Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = os.path.join(SITE_ROOT, "upload")
-
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash.
-# Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = '/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -145,29 +138,31 @@ INSTALLED_APPS = (
 
 LOGIN_URL          = '/login'
 LOGIN_REDIRECT_URL = '/'
-#LOGIN_ERROR_URL    = '/login-error/'
 
 AUTHENTICATION_BACKENDS = (
-    #'django.contrib.auth.backends.RemoteUserBackend',
-    #'social_auth.backends.twitter.TwitterBackend',
-    #'social_auth.backends.facebook.FacebookBackend',
     'social_auth.backends.google.GoogleOAuthBackend',
     'social_auth.backends.google.GoogleOAuth2Backend',
     'social_auth.backends.google.GoogleBackend',
     'social_auth.backends.yahoo.YahooBackend',
-    #'social_auth.backends.contrib.linkedin.LinkedinBackend',
-    #'social_auth.backends.contrib.livejournal.LiveJournalBackend',
-    #'social_auth.backends.contrib.orkut.OrkutBackend',
-    #'social_auth.backends.contrib.foursquare.FoursquareBackend',
     'social_auth.backends.contrib.github.GithubBackend',
-    #'social_auth.backends.contrib.dropbox.DropboxBackend',
-    #'social_auth.backends.contrib.flickr.FlickrBackend',
     'social_auth.backends.OpenIDBackend',
 )
 
-import os
 GITHUB_APP_ID                = os.environ['GITHUB_CLIENTID']
 GITHUB_API_SECRET            = os.environ['GITHUB_SECRET']
+GOOGLE_OAUTH2_CLIENT_ID      = os.environ['GOOGLE_OAUTH2_CLIENT_ID']
+GOOGLE_OAUTH2_CLIENT_SECRET  = os.environ['GOOGLE_OAUTH2_CLIENT_SECRET']
+
+# configure file store
+DEFAULT_FILE_STORAGE = "pyazure.storage.django_storage.AzureBlockStorage"
+MEDIA_ROOT = os.path.join(SITE_ROOT, "upload")
+MEDIA_URL = 'http://yum-store.02strich.de/yum/'
+AZURE_FILES = {
+    'account_name': 'yumdev',
+    'key': os.environ['AZURE_KEY'],
+    'container_name': 'yum',
+    'base_url': 'http://yum-store.02strich.de/'
+}
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
