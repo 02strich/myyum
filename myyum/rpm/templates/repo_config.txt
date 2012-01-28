@@ -1,0 +1,5 @@
+[{{ repo.owner }}-{{ repo.name }}]
+name={{ repo.name }}
+baseurl={{ MEDIA_URL}}{{ repo.owner }}/{{ repo.name }}/
+gpgcheck=0
+enabled=1
