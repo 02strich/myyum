@@ -35,12 +35,11 @@ def repository_create(request):
     form.instance.owner = request.user
     
     if form.is_valid():
-        
         # save instance
-        s = form.save()
+        repo = form.save()
         
         messages.add_message(request, messages.SUCCESS, "Successfully created repository.")
-        return redirect('myyum.rpm.views.repository_view', s.id)
+        return redirect('myyum.rpm.views.repository_view', repo.id)
     else:
         return render_to_response("repo_create.html", dict(form=form), context_instance=RequestContext(request))
 
@@ -59,7 +58,7 @@ def repository_edit(request, repository_id):
         form.save()
         
         messages.add_message(request, messages.SUCCESS, "Successfully updated repository.")
-        return redirect('myyum.rpm.views.repository_view', s.id)
+        return redirect('myyum.rpm.views.repository_view', repo.id)
     else:
         return render_to_response("repo_edit.html", dict(form=form), context_instance=RequestContext(request))
 

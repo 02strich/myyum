@@ -38,7 +38,7 @@ Select a RPM package for uploading into the current repository.
 		
 		<div class="actions">
 			<input class="btn primary" type="submit" value="Upload">
-			<button class="btn" type="reset">Cancel</button>
+				<a href="{% url myyum.rpm.views.repository_view repo.id %}" class="btn">Cancel</a>
 		</div>
 	</form>
 {% endblock %}

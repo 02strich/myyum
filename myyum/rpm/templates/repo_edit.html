@@ -34,7 +34,7 @@ When changing the name of your repository, make sure to update all servers, that
 		
 		<div class="actions">
 			<input class="btn primary" type="submit" value="Save Changes">
-			<button class="btn" type="reset">Cancel</button>
+			<a href="{% url myyum.rpm.views.repository_index %}" class="btn">Cancel</a>
 		</div>
 	</form>
 {% endblock %}
