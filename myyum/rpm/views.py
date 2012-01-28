@@ -2,8 +2,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db import IntegrityError
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render_to_response
-from django.template import RequestContext
+from django.template import RequestContext, loader
 
 from myyum.rpm.models import *
 from myyum.rpm.forms import *
@@ -103,6 +104,18 @@ def package_upload(request, repository_id):
     else:
         return render_to_response("pkg_upload.html", dict(repo=repo, form=form), context_instance=RequestContext(request))
 
+def repository_config(request, repository_id):
+    repo = get_object_or_404(Repository, id=repository_id)
+    
+    response = HttpResponse(mimetype='text/text')
+    response['Content-Disposition'] = 'attachment; filename=%s-%s.repo' % (repo.owner, repo.name)
+    
+    t = loader.get_template('repo_config.txt')
+    response.write(t.render(RequestContext(request, dict(repo=repo))))
+    return response
+
+
+    return response
 
 @login_required
 def package_view(request, repository_id, package_id):
