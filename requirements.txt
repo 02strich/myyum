@@ -1,5 +1,5 @@
 Django
 psycopg2
 django-social-auth
-pyrpm-02strich>=0.4
+pyrpm-02strich>=0.5
 pyazure>=0.2.2
