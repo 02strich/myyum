@@ -1,5 +1,7 @@
 Django
 psycopg2
+south
+django-picklefield
 django-social-auth
 -e git://github.com/02strich/pyrpm.git#egg=pyrpm-02strich
 pyrpm-02strich>=0.5

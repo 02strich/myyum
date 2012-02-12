@@ -2,8 +2,10 @@ from django.db import models, IntegrityError
 from django.core.files.storage import default_storage
 from django.contrib.auth.models import User
 
-from myyum.rpm.fields import *
+from picklefield.fields import PickledObjectField
+
 from myyum.rpm.tools import *
+
 
 class Repository(models.Model):
     owner = models.ForeignKey(User)
