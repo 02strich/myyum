@@ -37,6 +37,7 @@ class RPMPackage(models.Model):
     # general information
     pkgid = models.CharField(max_length=100)
     name = models.CharField(max_length=255)
+    filesize = models.IntegerField()
     
     # storage information
     filename = models.CharField(max_length=255)
@@ -70,7 +71,7 @@ class RPMPackage(models.Model):
             raise IntegrityError()
         
         # create in db
-        pkg = cls.objects.create(repository=repository, pkgid=rpm_pkg.checksum, name=rpm_pkg.header.name)
+        pkg = cls.objects.create(repository=repository, pkgid=rpm_pkg.checksum, name=rpm_pkg.header.name, filesize=rpm_pkg.filesize)
         for header_entry in rpm_pkg.header:
             RPMHeader.objects.create(package=pkg, tag=header_entry.tag, value=header_entry.value)
         

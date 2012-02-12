@@ -38,6 +38,7 @@ class YumPackageAdapter(yum.YumPackage):
         self.conflicts = []
         
         self.checksum = rpm_package.pkgid
+        self.filesize = rpm_package.filesize
         
         # load header entries from db
         for header_entry in rpm_package.headers.all():
