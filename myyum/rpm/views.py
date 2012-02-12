@@ -103,6 +103,19 @@ def package_upload(request, repository_id):
     else:
         return render_to_response("pkg_upload.html", dict(repo=repo, form=form), context_instance=RequestContext(request))
 
+@login_required
+def repository_update(request, repository_id):
+    repo = get_object_or_404(Repository, id=repository_id)
+    
+    # check rights
+    if not repo.owner == request.user:
+        messages.add_message(request, messages.WARNING, "Tried to access other users repository")
+        return redirect('myyum.rpm.views.repository_index')
+    
+    repo.update_metadata()
+    messages.add_message(request, messages.SUCCESS, "Updated repository metadata")
+    return redirect('myyum.rpm.views.repository_index')
+
 def repository_config(request, repository_id):
     repo = get_object_or_404(Repository, id=repository_id)
     
