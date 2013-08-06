@@ -2,8 +2,8 @@ from django.db import models, IntegrityError
 from django.core.files.storage import default_storage
 from django.contrib.auth.models import User
 
-from myyum.rpm.fields import JSONField
-from myyum.rpm.tools import *
+from rpm.fields import JSONField
+from rpm.tools import *
 
 
 class Repository(models.Model):

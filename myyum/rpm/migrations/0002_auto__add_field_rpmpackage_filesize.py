@@ -68,7 +68,7 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'package': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'headers'", 'to': "orm['rpm.RPMPackage']"}),
             'tag': ('django.db.models.fields.IntegerField', [], {}),
-            'value': ('myyum.rpm.fields.JSONField', [], {})
+            'value': ('rpm.fields.JSONField', [], {})
         },
         'rpm.rpmpackage': {
             'Meta': {'object_name': 'RPMPackage'},

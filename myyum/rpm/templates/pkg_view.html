@@ -1,7 +1,7 @@
 {% extends "pkg_base.html" %}
 
 {% block actions %}
-    <a href="{% url "myyum.rpm.views.package_delete" repo.id pkg.id %}">Delete this package</a>
+    <a href="{% url "rpm.views.package_delete" repo.id pkg.id %}">Delete this package</a>
     {{ block.super }}
 {% endblock %}
 

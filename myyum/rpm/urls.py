@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import patterns, url
 
-urlpatterns = patterns('myyum.rpm.views',
+urlpatterns = patterns('rpm.views',
                        url(r"^$", 'repository_index', name="rpm_root"),
 
                        url(r"repo$", 'repository_index'),

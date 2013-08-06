@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.files.storage import default_storage
 
-from myyum.rpm.models import *
+from rpm.models import *
 
 class RepositoryForm(forms.ModelForm):
     class Meta:

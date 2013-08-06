@@ -18,9 +18,9 @@
         <!-- Fixed navbar -->
         <div class="navbar navbar-fixed-top">
             <div class="container">
-                <a class="navbar-brand" href="{% url "myyum.rpm.views.repository_index" %}">MyYum</a>
+                <a class="navbar-brand" href="{% url "rpm.views.repository_index" %}">MyYum</a>
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="{% url "myyum.rpm.views.repository_index" %}">Home</a></li>
+                    <li class="active"><a href="{% url "rpm.views.repository_index" %}">Home</a></li>
                 </ul>
                 {% if request.user.is_active %}
                 <p class="navbar-text pull-right">Signed in as <a href="{% url "django.contrib.auth.views.logout" %}" class="navbar-link">{{ request.user.get_full_name }}</a></p>

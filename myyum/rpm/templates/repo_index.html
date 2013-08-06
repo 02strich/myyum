@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block actions %}
-    <a href="{% url "myyum.rpm.views.repository_create" %}">Create new repository</a>
+    <a href="{% url "rpm.views.repository_create" %}">Create new repository</a>
 {% endblock %}
 
 {% block actiontitle %}Your Repositories{% endblock %}
@@ -24,13 +24,13 @@
                 {% if repos %}
                     {% for repo in repos %}
                     <tr>
-                        <td><a href="{% url "myyum.rpm.views.repository_view" repo.id %}">{{ repo.name }}</a></td>
+                        <td><a href="{% url "rpm.views.repository_view" repo.id %}">{{ repo.name }}</a></td>
                         <td>{{ repo.description }}</td>
                         <td>{{ repo.packages.all|length }}</td>
                         <td></td>
                         <td>
-                            <a href="{% url "myyum.rpm.views.repository_edit" repo.id %}">Edit</a>&nbsp;&middot;
-                            <a href="{% url "myyum.rpm.views.repository_delete" repo.id %}">Delete</a>&nbsp;&middot;
+                            <a href="{% url "rpm.views.repository_edit" repo.id %}">Edit</a>&nbsp;&middot;
+                            <a href="{% url "rpm.views.repository_delete" repo.id %}">Delete</a>&nbsp;&middot;
                             <a href="{{ repo.metadata_url }}">Metadata URL</a>
                         </td>
                     </tr>

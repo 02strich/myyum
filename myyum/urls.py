@@ -6,7 +6,7 @@ from django.conf.urls.defaults import patterns, include, url
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r"^", include('myyum.rpm.urls')),
+    url(r"^", include('rpm.urls')),
     url(r"", include('social_auth.urls')),
 
     url(r"^login$", 'django.contrib.auth.views.login', {'template_name': "login.html"}),

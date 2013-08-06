@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
 {% block actions %}
-    <a href="{% url "myyum.rpm.views.package_upload" repo.id %}">Upload new package</a><br/><br/>
-    <a href="{% url "myyum.rpm.views.repository_config" repo.id %}">Repository config file</a><br/>
-    <a href="{% url "myyum.rpm.views.repository_edit" repo.id %}">Edit this repository</a><br/>
-    <a href="{% url "myyum.rpm.views.repository_delete" repo.id %}">Delete this repository</a>
+    <a href="{% url "rpm.views.package_upload" repo.id %}">Upload new package</a><br/><br/>
+    <a href="{% url "rpm.views.repository_config" repo.id %}">Repository config file</a><br/>
+    <a href="{% url "rpm.views.repository_edit" repo.id %}">Edit this repository</a><br/>
+    <a href="{% url "rpm.views.repository_delete" repo.id %}">Delete this repository</a>
     <br/><br/>
-    <a href="{% url "myyum.rpm.views.repository_index" %}">Return to overview</a>
+    <a href="{% url "rpm.views.repository_index" %}">Return to overview</a>
 {% endblock %}
 
 {% block actiontitle %}{{ repo.name }}{% endblock %}
@@ -30,12 +30,12 @@
                 {% if repo.packages.all %}
                     {% for pkg in repo.packages.all %}
                         <tr>
-                            <td><a href="{% url "myyum.rpm.views.package_view" repo.id pkg.id %}">{{ pkg.name }}</a></td>
+                            <td><a href="{% url "rpm.views.package_view" repo.id pkg.id %}">{{ pkg.name }}</a></td>
                             <td>{{ pkg.summary }}</td>
                             <td>{{ pkg.version_string }}</td>
                             <td></td>
                             <td class="">
-                                <a href="{% url "myyum.rpm.views.package_delete" repo.id pkg.id %}">Delete</a>
+                                <a href="{% url "rpm.views.package_delete" repo.id pkg.id %}">Delete</a>
                             </td>
                         </tr>
                     {% endfor %}
