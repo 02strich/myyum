@@ -1,3 +1,4 @@
 /myyum/upload/*
 /app.db
 *.pyc
+myyum/localsettings.py
