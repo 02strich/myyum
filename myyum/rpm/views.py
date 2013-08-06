@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -12,7 +13,10 @@ from myyum.rpm.forms import *
 
 @login_required
 def repository_index(request):
-    repos = Repository.objects.filter(owner=request.user)
+    if settings.GENERAL_ACCESS:
+        repos = Repository.objects.all()
+    else:
+        repos = Repository.objects.filter(owner=request.user)
     return render_to_response("repo_index.html", dict(repos=repos), context_instance=RequestContext(request))
 
 
@@ -51,7 +55,7 @@ def repository_edit(request, repository_id):
     form = RepositoryForm(request.POST or None, instance=repo)
 
     # check rights
-    if not repo.owner == request.user:
+    if not (settings.GENERAL_ACCESS or repo.owner == request.user):
         messages.add_message(request, messages.WARNING, "Tried to access other users repository")
         return redirect('myyum.rpm.views.repository_index')
 
@@ -69,7 +73,7 @@ def repository_delete(request, repository_id):
     repo = get_object_or_404(Repository, id=repository_id)
 
     # check rights
-    if not repo.owner == request.user:
+    if not (settings.GENERAL_ACCESS or repo.owner == request.user):
         messages.add_message(request, messages.WARNING, "Tried to access other users repository")
         return redirect('myyum.rpm.views.repository_index')
 
@@ -88,7 +92,7 @@ def package_upload(request, repository_id):
     form = PackageUploadForm(repo, request.POST or None, request.FILES or None)
 
     # check rights
-    if not repo.owner == request.user:
+    if not (settings.GENERAL_ACCESS or repo.owner == request.user):
         messages.add_message(request, messages.WARNING, "Tried to access other users repository")
         return redirect('myyum.rpm.views.repository_index')
 
@@ -110,7 +114,7 @@ def repository_update(request, repository_id):
     repo = get_object_or_404(Repository, id=repository_id)
 
     # check rights
-    if not repo.owner == request.user:
+    if not (settings.GENERAL_ACCESS or repo.owner == request.user):
         messages.add_message(request, messages.WARNING, "Tried to access other users repository")
         return redirect('myyum.rpm.views.repository_index')
 
@@ -121,6 +125,11 @@ def repository_update(request, repository_id):
 
 def repository_config(request, repository_id):
     repo = get_object_or_404(Repository, id=repository_id)
+
+    # check rights
+    if not (settings.GENERAL_ACCESS or repo.owner == request.user):
+        messages.add_message(request, messages.WARNING, "Tried to access other users repository")
+        return redirect('myyum.rpm.views.repository_index')
 
     response = HttpResponse(mimetype='text/text')
     response['Content-Disposition'] = 'attachment; filename=%s-%s.repo' % (repo.owner, repo.name)
@@ -138,7 +147,7 @@ def package_view(request, repository_id, package_id):
     package = get_object_or_404(RPMPackage, id=package_id)
 
     # check rights
-    if not repo.owner == request.user:
+    if not (settings.GENERAL_ACCESS or repo.owner == request.user):
         messages.add_message(request, messages.WARNING, "Tried to access other users repository")
         return redirect('myyum.rpm.views.repository_index')
 
@@ -151,7 +160,7 @@ def package_delete(request, repository_id, package_id):
     pkg = get_object_or_404(RPMPackage, id=package_id)
 
     # check rights
-    if not repo.owner == request.user:
+    if not (settings.GENERAL_ACCESS or repo.owner == request.user):
         messages.add_message(request, messages.WARNING, "Tried to access other users repository")
         return redirect('myyum.rpm.views.repository_index')
 

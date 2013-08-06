@@ -146,6 +146,9 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
+# whether to allow other users access to ones repositories
+GENERAL_ACCESS = True
+
 # configure file store
 MEDIA_ROOT = os.path.join(SITE_ROOT, "upload")
 MEDIA_URL = ''
