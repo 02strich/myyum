@@ -1,8 +1,8 @@
 {% extends "pkg_base.html" %}
 
 {% block actions %}
-	<a href="{% url myyum.rpm.views.package_delete repo.id, pkg.id %}">Delete this package</a>
-	{{ block.super }}
+    <a href="{% url "myyum.rpm.views.package_delete" repo.id pkg.id %}">Delete this package</a>
+    {{ block.super }}
 {% endblock %}
 
 {% block actiontitle %}{{ pkg.name }}{% endblock %}
@@ -10,37 +10,43 @@
 
 {% block content %}
     {{ block.super }}
-	
-	<div id="welcome" class="x12">
-		{% with yum_pkg=pkg.get_yum_package %}
-			<h4>General Information</h4>
-			<ul>
-				<li><strong>Name:</strong> {{ yum_pkg.header.name }}</li>
-				<li><strong>Summary:</strong> {{ yum_pkg.header.summary }}</li>
-				<li><strong>Version:</strong> {{ yum_pkg.header.version }}-{{ yum_pkg.header.release}}</li>
-				<li><strong>Epoch:</strong> {{ yum_pkg.header.epoch }}</li>
-				<li><strong>Architecture:</strong> {{ yum_pkg.header.architecture }}</li>
-				<li><strong>Source RPM:</strong> {{ yum_pkg.header.source_rpm }}</li>
-				<li><strong>Build:</strong> {{ yum_pkg.header.build_host }}@{{ yum_pkg.header.build_time }}
-				
-			</ul>
-			
-			<h4>Description</h4>
-			<pre>{{ yum_pkg.header.description|linebreaks }}</pre>
-			
-			<h4>Requires</h4>
-			<ul>
-				{% for req in yum_pkg.requires %}
-					<li>{{ req.name }}: {{ req.version.1 }}{% if req.version.2 %}-{{ req.version.2 }}{% endif %}</li>
-				{% endfor %}
-			</ul>
-			
-			<h4>Filelist</h4>
-			<ul>
-				{% for file in yum_pkg.filelist %}
-					<li>{{ file.name }}</li>
-				{% endfor %}
-			</ul>
-		{% endwith %}
-	</div>
+
+    <div id="welcome" class="x12">
+        {% with yum_pkg=pkg.get_yum_package %}
+            <h4>General Information</h4>
+            <ul>
+                <li><strong>Name:</strong> {{ yum_pkg.header.name }}</li>
+                <li><strong>Summary:</strong> {{ yum_pkg.header.summary }}</li>
+                <li><strong>Version:</strong> {{ yum_pkg.header.version }}-{{ yum_pkg.header.release}}</li>
+                <li><strong>Epoch:</strong> {{ yum_pkg.header.epoch }}</li>
+                <li><strong>Architecture:</strong> {{ yum_pkg.header.architecture }}</li>
+                <li><strong>Source RPM:</strong> {{ yum_pkg.header.source_rpm }}</li>
+                <li><strong>Build:</strong> {{ yum_pkg.header.build_host }}@{{ yum_pkg.header.build_time }}
+            </ul>
+
+            <h4>Description</h4>
+            <pre>{{ yum_pkg.header.description|linebreaks }}</pre>
+
+            <h4>Requires</h4>
+            <ul>
+                {% for req in yum_pkg.requires %}
+                    <li>{{ req.name }}: {{ req.version.1 }}{% if req.version.2 %}-{{ req.version.2 }}{% endif %}</li>
+                {% endfor %}
+            </ul>
+
+            <h4>Provides</h4>
+            <ul>
+                {% for prov in yum_pkg.provides %}
+                    <li>{{ prov.name }}: {{ prov.version.1 }}{% if prov.version.2 %}-{{ prov.version.2 }}{% endif %}</li>
+                {% endfor %}
+            </ul>
+
+            <h4>Filelist</h4>
+            <ul>
+                {% for file in yum_pkg.filelist %}
+                    <li>{{ file.name }}</li>
+                {% endfor %}
+            </ul>
+        {% endwith %}
+    </div>
 {% endblock %}

@@ -8,10 +8,10 @@ from django.conf.urls.defaults import patterns, include, url
 urlpatterns = patterns('',
     url(r"^", include('myyum.rpm.urls')),
     url(r"", include('social_auth.urls')),
-    
+
     url(r"^login$", 'django.contrib.auth.views.login', {'template_name': "login.html"}),
     url(r"^logout$", 'django.contrib.auth.views.logout', {'next_page': "/"}),
-    
+
     # Examples:
     # url(r'^$', 'myyum.views.home', name='home'),
     # url(r'^myyum/', include('myyum.foo.urls')),

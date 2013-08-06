@@ -1,7 +1,5 @@
 Django
-psycopg2
-south
-django-picklefield
+django-widget-tweaks
 django-social-auth
+south
 -e git://github.com/02strich/pyrpm.git#egg=pyrpm-02strich
-pyazure>=0.2.2

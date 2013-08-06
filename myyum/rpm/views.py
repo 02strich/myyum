@@ -9,6 +9,7 @@ from django.template import RequestContext, loader
 from myyum.rpm.models import *
 from myyum.rpm.forms import *
 
+
 @login_required
 def repository_index(request):
     repos = Repository.objects.filter(owner=request.user)
@@ -18,26 +19,26 @@ def repository_index(request):
 @login_required
 def repository_view(request, repository_id):
     repo = get_object_or_404(Repository, id=repository_id)
-    
+
     # check rights
     if not repo.owner == request.user:
         messages.add_message(request, messages.WARNING, "Tried to access other users repository")
         return redirect('myyum.rpm.views.repository_index')
-    
+
     return render_to_response("repo_view.html", dict(repo=repo), context_instance=RequestContext(request))
 
 
-@login_required    
+@login_required
 def repository_create(request):
     form = RepositoryForm(request.POST or None)
-    
+
     # set owner to current user
     form.instance.owner = request.user
-    
+
     if form.is_valid():
         # save instance
         repo = form.save()
-        
+
         messages.add_message(request, messages.SUCCESS, "Successfully created repository.")
         return redirect('myyum.rpm.views.repository_view', repo.id)
     else:
@@ -48,33 +49,33 @@ def repository_create(request):
 def repository_edit(request, repository_id):
     repo = get_object_or_404(Repository, id=repository_id)
     form = RepositoryForm(request.POST or None, instance=repo)
-    
+
     # check rights
     if not repo.owner == request.user:
         messages.add_message(request, messages.WARNING, "Tried to access other users repository")
         return redirect('myyum.rpm.views.repository_index')
-    
+
     if form.is_valid():
         form.save()
-        
+
         messages.add_message(request, messages.SUCCESS, "Successfully updated repository.")
         return redirect('myyum.rpm.views.repository_view', repo.id)
     else:
-        return render_to_response("repo_edit.html", dict(form=form), context_instance=RequestContext(request))
+        return render_to_response("repo_edit.html", dict(form=form, repo=repo), context_instance=RequestContext(request))
 
 
 @login_required
 def repository_delete(request, repository_id):
     repo = get_object_or_404(Repository, id=repository_id)
-    
+
     # check rights
     if not repo.owner == request.user:
         messages.add_message(request, messages.WARNING, "Tried to access other users repository")
         return redirect('myyum.rpm.views.repository_index')
-    
+
     if request.method == 'POST':
         repo.delete()
-        
+
         messages.add_message(request, messages.SUCCESS, "Successfully deleted repository.")
         return redirect('myyum.rpm.views.repository_index')
     else:
@@ -85,60 +86,62 @@ def repository_delete(request, repository_id):
 def package_upload(request, repository_id):
     repo = get_object_or_404(Repository, id=repository_id)
     form = PackageUploadForm(repo, request.POST or None, request.FILES or None)
-    
+
     # check rights
     if not repo.owner == request.user:
         messages.add_message(request, messages.WARNING, "Tried to access other users repository")
         return redirect('myyum.rpm.views.repository_index')
-    
+
     if form.is_valid():
         try:
             pkg = form.save()
         except IntegrityError:
             messages.add_message(request, messages.ERROR, "Package already exists.")
             return render_to_response("pkg_upload.html", dict(repo=repo, form=form), context_instance=RequestContext(request))
-        
+
         messages.add_message(request, messages.SUCCESS, "Successfully uploaded package.")
         return redirect('myyum.rpm.views.repository_view', repo.id)
     else:
         return render_to_response("pkg_upload.html", dict(repo=repo, form=form), context_instance=RequestContext(request))
 
+
 @login_required
 def repository_update(request, repository_id):
     repo = get_object_or_404(Repository, id=repository_id)
-    
+
     # check rights
     if not repo.owner == request.user:
         messages.add_message(request, messages.WARNING, "Tried to access other users repository")
         return redirect('myyum.rpm.views.repository_index')
-    
+
     repo.update_metadata()
     messages.add_message(request, messages.SUCCESS, "Updated repository metadata")
     return redirect('myyum.rpm.views.repository_index')
 
+
 def repository_config(request, repository_id):
     repo = get_object_or_404(Repository, id=repository_id)
-    
+
     response = HttpResponse(mimetype='text/text')
     response['Content-Disposition'] = 'attachment; filename=%s-%s.repo' % (repo.owner, repo.name)
-    
+
     t = loader.get_template('repo_config.txt')
     response.write(t.render(RequestContext(request, dict(repo=repo))))
     return response
 
-
     return response
+
 
 @login_required
 def package_view(request, repository_id, package_id):
     repo = get_object_or_404(Repository, id=repository_id)
     package = get_object_or_404(RPMPackage, id=package_id)
-    
+
     # check rights
     if not repo.owner == request.user:
         messages.add_message(request, messages.WARNING, "Tried to access other users repository")
         return redirect('myyum.rpm.views.repository_index')
-    
+
     return render_to_response("pkg_view.html", dict(repo=repo, pkg=package), context_instance=RequestContext(request))
 
 
@@ -154,9 +157,8 @@ def package_delete(request, repository_id, package_id):
 
     if request.method == 'POST':
         pkg.delete()
-        
+
         messages.add_message(request, messages.SUCCESS, "Successfully deleted package.")
         return redirect('myyum.rpm.views.repository_view', repo.id)
     else:
         return render_to_response("pkg_delete.html", dict(repo=repo, pkg=pkg), context_instance=RequestContext(request))
-

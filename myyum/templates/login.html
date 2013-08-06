@@ -3,27 +3,50 @@
 
 {% load static %}
 
-{% block actiontitle %}Login to MyYum{% endblock %}
+{% block actiontitle %}Login{% endblock %}
 {% block subtitle%}Select your preferred mechanism{% endblock %}
 
 {% block helptext %}
-Select the authentication provider that most suits you.
+Select the authentication provider that most suits you. Most internal setups probably want to disable the social providers and rely on the LDAP one.
 {% endblock %}
 
 {% block content %}
-	<div>
-		<h4>Do you already have an account on one of these sites? Click the logo to log in with it here:</h4>
-		<div style="text-align: center;">
-		<a href="{% url socialauth_begin 'google-oauth2' %}"><div class="login-icon-google"></div></a>
-		<a href="{% url socialauth_begin 'yahoo' %}"><div class="login-icon-yahoo"></div></a>
-		<a href="{% url socialauth_begin 'github' %}"><div class="login-icon-github"></div></a>
-		</div>
-	</div>
-	
-	<div>
-		<h4>Or, you can manually enter your OpenID</h4>
-		<form action="{% url socialauth_begin "openid" %}" method="post">{% csrf_token %}
-			<input type="text" tabindex="100" class="span10 openid-box" name="openid_identifier" id="openid_identifier">
-			<input type="submit" value="Login" class="btn primary"/>
-	</div>
+    {% if social_auth.backends %}
+        <div>
+            <h4>Do you already have an account on one of these sites? Click the logo to log in with it here:</h4>
+            <div style="text-align: center;">
+                {% if 'google-oauth2' in social_auth.backends.oauth2 %}<a href="{% url "socialauth_begin" 'google-oauth2' %}"><div class="login-icon-google"></div></a>{% endif %}
+                {% if 'yahoo' in social_auth.backends.openid %}<a href="{% url "socialauth_begin" 'yahoo' %}"><div class="login-icon-yahoo"></div></a>{% endif %}
+                {% if 'github' in social_auth.backends.oauth2 %}<a href="{% url "socialauth_begin" 'github' %}"><div class="login-icon-github"></div></a>{% endif %}
+            </div>
+        </div>
+
+        {% if "openid" in social_auth.backends.openid %}
+            <div>
+                <h4>Or, you can manually enter your OpenID</h4>
+                <form class="form-inline" style="text-align:center;" action="{% url "socialauth_begin" "openid" %}" method="post">
+                    {% csrf_token %}
+                    <input type="text" style="width: 70%;" class="form-control" name="openid_identifier" id="openid_identifier">
+                    <input type="submit" value="Login" class="btn btn-default"/>
+                </form>
+            </div>
+        {% endif %}
+    {% else %}
+        <div>
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+
+            <h4>Using Credentials</h4>
+            <form class="form-signin" method="POST">
+                {% csrf_token %}
+                <input id="id_username" name="username" type="text" class="form-control" placeholder="Email address" autofocus>
+                <input id="id_password" name="password" type="password" class="form-control" placeholder="Password">
+                <label class="checkbox"><input type="checkbox" value="remember-me"> Remember me</label>
+                <button class="btn btn-large btn-default btn-block" type="submit">Sign in</button>
+            </form>
+        </div>
+    {% endif %}
 {% endblock %}

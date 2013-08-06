@@ -131,6 +131,8 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'south',
+    'widget_tweaks',
+    # Uncomment the next line to enable social auth:
     'social_auth',
     'myyum.rpm'
 )
@@ -141,29 +143,12 @@ LOGIN_URL          = '/login'
 LOGIN_REDIRECT_URL = '/'
 
 AUTHENTICATION_BACKENDS = (
-    'social_auth.backends.google.GoogleOAuthBackend',
-    'social_auth.backends.google.GoogleOAuth2Backend',
-    'social_auth.backends.google.GoogleBackend',
-    'social_auth.backends.yahoo.YahooBackend',
-    'social_auth.backends.contrib.github.GithubBackend',
-    'social_auth.backends.OpenIDBackend',
+    'django.contrib.auth.backends.ModelBackend',
 )
 
-GITHUB_APP_ID                = os.environ['GITHUB_CLIENTID']
-GITHUB_API_SECRET            = os.environ['GITHUB_SECRET']
-GOOGLE_OAUTH2_CLIENT_ID      = os.environ['GOOGLE_OAUTH2_CLIENT_ID']
-GOOGLE_OAUTH2_CLIENT_SECRET  = os.environ['GOOGLE_OAUTH2_CLIENT_SECRET']
-
 # configure file store
-DEFAULT_FILE_STORAGE = "pyazure.storage.django_storage.AzureBlockStorage"
 MEDIA_ROOT = os.path.join(SITE_ROOT, "upload")
-MEDIA_URL = 'http://yum-store.02strich.de/yum/'
-AZURE_FILES = {
-    'account_name': 'yumdev',
-    'key': os.environ['AZURE_KEY'],
-    'container_name': 'yum',
-    'base_url': 'http://yum-store.02strich.de/'
-}
+MEDIA_URL = ''
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -173,9 +158,15 @@ AZURE_FILES = {
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'filters': {
+         'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+     },
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
+            'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
         }
     },

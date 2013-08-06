@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
 {% block actions %}
-	<a href="{% url myyum.rpm.views.package_upload repo.id %}">Upload new package</a><br/><br/>
-	<a href="{% url myyum.rpm.views.repository_config repo.id %}">Repository config file</a><br/>
-	<a href="{% url myyum.rpm.views.repository_edit repo.id %}">Edit this repository</a><br/>
-	<a href="{% url myyum.rpm.views.repository_delete repo.id %}">Delete this repository</a>
+    <a href="{% url "myyum.rpm.views.package_upload" repo.id %}">Upload new package</a><br/><br/>
+    <a href="{% url "myyum.rpm.views.repository_config" repo.id %}">Repository config file</a><br/>
+    <a href="{% url "myyum.rpm.views.repository_edit" repo.id %}">Edit this repository</a><br/>
+    <a href="{% url "myyum.rpm.views.repository_delete" repo.id %}">Delete this repository</a>
 {% endblock %}
 
 {% block actiontitle %}{{ repo.name }}{% endblock %}
@@ -12,36 +12,36 @@
 
 {% block content %}
     {{ block.super }}
-	
-	<div id="welcome" class="x12">			
-		<table class="data">
-			<thead>
-				<tr>
-					<th>Name</th>
-					<th>Summary</th>
-					<th>Version</th>
-					<th>...</th>
-					<th>Actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% if repo.packages.all %}
-					{% for pkg in repo.packages.all %}
-						<tr>
-							<td><a href="{% url myyum.rpm.views.package_view repo.id, pkg.id %}">{{ pkg.name }}</a></td>
-							<td>{{ pkg.summary }}</td>
-							<td>{{ pkg.version_string }}</td>
-							<td></td>
-							<td class="">
-								<a href="{% url myyum.rpm.views.package_delete repo.id, pkg.id %}">Delete</a>
-							</td>
-						</tr>
-					{% endfor %}
-				{% else %}
-					<tr>
-						<td colspan=5>No packages uploaded yet</td>
-				{% endif %}
-			</tbody>
-		</table>
-	</div>
+
+    <div id="welcome">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Summary</th>
+                    <th>Version</th>
+                    <th></th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if repo.packages.all %}
+                    {% for pkg in repo.packages.all %}
+                        <tr>
+                            <td><a href="{% url "myyum.rpm.views.package_view" repo.id pkg.id %}">{{ pkg.name }}</a></td>
+                            <td>{{ pkg.summary }}</td>
+                            <td>{{ pkg.version_string }}</td>
+                            <td></td>
+                            <td class="">
+                                <a href="{% url "myyum.rpm.views.package_delete" repo.id pkg.id %}">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan=5>No packages uploaded yet</td>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

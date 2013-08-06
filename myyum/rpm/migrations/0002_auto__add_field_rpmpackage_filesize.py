@@ -7,13 +7,13 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding field 'RPMPackage.filesize'
         db.add_column('rpm_rpmpackage', 'filesize', self.gf('django.db.models.fields.IntegerField')(default=0), keep_default=False)
 
 
     def backwards(self, orm):
-        
+
         # Deleting field 'RPMPackage.filesize'
         db.delete_column('rpm_rpmpackage', 'filesize')
 
@@ -68,7 +68,7 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'package': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'headers'", 'to': "orm['rpm.RPMPackage']"}),
             'tag': ('django.db.models.fields.IntegerField', [], {}),
-            'value': ('picklefield.fields.PickledObjectField', [], {})
+            'value': ('myyum.rpm.fields.JSONField', [], {})
         },
         'rpm.rpmpackage': {
             'Meta': {'object_name': 'RPMPackage'},

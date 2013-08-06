@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
-{% block actiontitle %}Your Repositories{% endblock %}
+{% load widget_tweaks %}
+
+{% block actiontitle %}{{ repo.name }}{% endblock %}
 {% block subtitle%}Edit repository{% endblock %}
 
 {% block helptext %}
@@ -10,31 +12,28 @@ When changing the name of your repository, make sure to update all servers, that
 {% block content %}
     {{ block.super }}
 
-	<form method="post">
-		{% csrf_token %}
-		
-		{% if form.non_field_errors %}
-			<tr><td colspan=100>{{ form_element.non_field_errors }}</td></tr>
-		{% endif %}
-		
-		<fieldset>
-			<legend>General Settings</legend>
-			{% for field in form %}
-				<div class="clearfix {% if field.errors %}error{% endif %}">
-					<label for="subject">{{ field.label }}</label>
-					<div class="input">
-						{{ field }}
-						{% if field.errors %}
-							<span class="help-inline">{% for error in field.errors %}{{ error }}{% endfor %}</span>
-						{% endif %}
-					</div>
-				</div>
-			{% endfor %}
-		</fieldset>
-		
-		<div class="actions">
-			<input class="btn primary" type="submit" value="Save Changes">
-			<a href="{% url myyum.rpm.views.repository_index %}" class="btn">Cancel</a>
-		</div>
-	</form>
+    <form method="post">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <fieldset>
+            <legend>General Settings</legend>
+            {% for field in form %}
+                <div class="form-group {% if field.errors %}has-error{% endif %}">
+                    <label class="control-label" for="{{ field.id_for_label }}">{{ field.label}}{% if field.errors%}: {{field.errors}}{% endif %}</label>
+                    {{ field|add_class:"form-control" }}
+                </div>
+            {% endfor %}
+        </fieldset>
+
+        <div class="actions">
+            <input class="btn primary" type="submit" value="Save Changes">
+            <a href="{% url "myyum.rpm.views.repository_index" %}" class="btn">Cancel</a>
+        </div>
+    </form>
 {% endblock %}
