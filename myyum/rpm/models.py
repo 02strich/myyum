@@ -72,13 +72,10 @@ class RPMPackage(models.Model):
         # create in db
         pkg = cls.objects.create(repository=repository, pkgid=rpm_pkg.checksum, name=rpm_pkg.header.name, filesize=rpm_pkg.filesize)
         for header_entry in rpm_pkg.header:
-            print "------------------------------------------------"
-            print repr(header_entry.value)
             try:
                 RPMHeader.objects.create(package=pkg, tag=header_entry.tag, value=header_entry.value)
             except:
-                import traceback
-                traceback.print_exc()
+                pass
 
         # upload it
         pkg.url = default_storage.save("%s/%s" % (repository.repodir, rpm_pkg.canonical_filename), package_file)
