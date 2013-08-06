@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 
+{% block actions %}
+    <br/><br/>
+    <a href="{% url "myyum.rpm.views.repository_view" repo.id %}">Return to repository</a>
+{% endblock %}
+
 {% block actiontitle %}{{ repo.name }}{% endblock %}
 {% block subtitle%}Delete repository{% endblock %}
 

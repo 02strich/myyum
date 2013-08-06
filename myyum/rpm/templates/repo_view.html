@@ -5,6 +5,8 @@
     <a href="{% url "myyum.rpm.views.repository_config" repo.id %}">Repository config file</a><br/>
     <a href="{% url "myyum.rpm.views.repository_edit" repo.id %}">Edit this repository</a><br/>
     <a href="{% url "myyum.rpm.views.repository_delete" repo.id %}">Delete this repository</a>
+    <br/><br/>
+    <a href="{% url "myyum.rpm.views.repository_index" %}">Return to overview</a>
 {% endblock %}
 
 {% block actiontitle %}{{ repo.name }}{% endblock %}
