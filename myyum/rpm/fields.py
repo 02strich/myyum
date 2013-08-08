@@ -6,7 +6,7 @@ from django.utils.encoding import smart_unicode
 from django.utils.six import with_metaclass
 
 
-class JSONField(with_metaclass(models.SubfieldBase, models.Field)):
+class JSONField(with_metaclass(models.SubfieldBase, models.TextField)):
 
     """Simple JSON field that stores python structures as JSON strings on database.
     """
@@ -36,6 +36,6 @@ class JSONField(with_metaclass(models.SubfieldBase, models.Field)):
 
 try:
     from south.modelsinspector import add_introspection_rules
-    add_introspection_rules([], ["^myyum\.rpm\.fields\.JSONField"])
+    add_introspection_rules([], ["^rpm\.fields\.JSONField"])
 except:
     pass
