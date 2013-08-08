@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 
+{% load static %}
+
+{% block extrahead %}
+    <link rel="stylesheet" href="{% get_static_prefix %}css/bootstrap-sortable.css">
+    <script type="text/javascript" src="{% get_static_prefix %}js/bootstrap-sortable.js"></script>
+{% endblock %}
+
 {% block actions %}
     <a href="{% url "rpm.views.package_upload" repo.id %}">Upload new package</a><br/><br/>
     <a href="{% url "rpm.views.repository_config" repo.id %}">Repository config file</a><br/>
@@ -16,14 +23,14 @@
     {{ block.super }}
 
     <div id="welcome">
-        <table class="table table-hover">
+        <table class="table table-hover sortable">
             <thead>
                 <tr>
-                    <th>Name</th>
+                    <th data-defaultsort="asc">Name</th>
                     <th>Summary</th>
                     <th>Version</th>
-                    <th></th>
-                    <th>Actions</th>
+                    <td></td>
+                    <td>Actions</td>
                 </tr>
             </thead>
             <tbody>
