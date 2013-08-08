@@ -25,7 +25,7 @@ def repository_view(request, repository_id):
     repo = get_object_or_404(Repository, id=repository_id)
 
     # check rights
-    if not repo.owner == request.user:
+    if not (settings.GENERAL_ACCESS or repo.owner == request.user):
         messages.add_message(request, messages.WARNING, "Tried to access other users repository")
         return redirect('rpm.views.repository_index')
 
