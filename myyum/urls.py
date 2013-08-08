@@ -12,6 +12,11 @@ urlpatterns = patterns('',
     url(r"^login$", 'django.contrib.auth.views.login', {'template_name': "login.html"}),
     url(r"^logout$", 'django.contrib.auth.views.logout', {'next_page': "/"}),
 
+    # REST API
+    url(r'^api/', include('rpm.api')),
+    # Uncomment the next line to support authentication when using the API in a browser
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+
     # Examples:
     # url(r'^$', 'myyum.views.home', name='home'),
     # url(r'^myyum/', include('myyum.foo.urls')),

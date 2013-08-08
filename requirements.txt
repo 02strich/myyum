@@ -2,4 +2,5 @@ Django
 django-widget-tweaks
 django-social-auth
 south
+djangorestframework
 -e git://github.com/02strich/pyrpm.git#egg=pyrpm-02strich

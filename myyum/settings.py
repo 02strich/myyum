@@ -132,8 +132,8 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'south',
     'widget_tweaks',
-    # Uncomment the next line to enable social auth:
     'social_auth',
+    'rest_framework',
     'rpm'
 )
 
@@ -147,11 +147,21 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # whether to allow other users access to ones repositories
-GENERAL_ACCESS = True
+GENERAL_ACCESS = False
 
 # configure file store
 MEDIA_ROOT = os.path.join(SITE_ROOT, "upload")
 MEDIA_URL = ''
+
+REST_FRAMEWORK = {
+    # Use hyperlinked styles by default.
+    # Only used if the `serializer_class` attribute is not set on a view.
+    #'DEFAULT_MODEL_SERIALIZER_CLASS': 'rest_framework.serializers.HyperlinkedModelSerializer',
+
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated']
+}
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
